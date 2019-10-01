@@ -5,14 +5,4 @@
     <url>%2F2019%2F10%2F01%2Fcube%2F</url>
     <content type="text"><![CDATA[第一步白色小花 第二步白色十字 第三步上层还原白色至最底层，然后远离，下来，恢复，上去。 第四步中层恢复 先找到底部中间棱， 非黄色，再远离，下来，恢复，上去 再和处理恢复顶层一样处理恢复 第五步底部黄色十字 第六步 黄面复原 第七步 第八步]]></content>
   </entry>
-  <entry>
-    <title><![CDATA[newblog]]></title>
-    <url>%2F2019%2F10%2F01%2Fnewblog%2F</url>
-    <content type="text"><![CDATA[这是一篇新的文档，仅做于测试]]></content>
-  </entry>
-  <entry>
-    <title><![CDATA[Hello World]]></title>
-    <url>%2F2019%2F10%2F01%2Fhello-world%2F</url>
-    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
-  </entry>
 </search>
