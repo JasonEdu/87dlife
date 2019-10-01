@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[test comment]]></title>
+    <url>%2F2019%2F10%2F01%2Ftest-comment%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
     <title><![CDATA[简洁魔方教程]]></title>
     <url>%2F2019%2F10%2F01%2Fcube%2F</url>
     <content type="text"><![CDATA[第一步白色小花 第二步白色十字 第三步上层还原白色至最底层，然后远离，下来，恢复，上去。 第四步中层恢复 先找到底部中间棱， 非黄色，再远离，下来，恢复，上去 再和处理恢复顶层一样处理恢复 第五步底部黄色十字 第六步 黄面复原 第七步 第八步]]></content>
