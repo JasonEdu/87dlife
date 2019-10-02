@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[使用Mweb发布Hexo文章]]></title>
     <url>%2F2019%2F10%2F02%2F%E4%BD%BF%E7%94%A8Mweb%E5%8F%91%E5%B8%83Hexo%E6%96%87%E7%AB%A0%2F</url>
-    <content type="text"><![CDATA[如何使用Mweb直接发布博文 这是一篇测试文章尝试直接通过Mweb发布文章 第一步用blog命令进入目录123vim ~/.zsh.rcalias blog=&apos;cd /Users/xxxx/87dlife&apos;source ~/.zsh.rc 这样以后要写文章第一步在iTerm 2上输入blog即可以进入目录 第二步配置MWeb 用cmd+e 打开外部文件 引入source文件 配置source文件夹 配置如下： 配置图床（此处使用七牛云） 第三步 hexo new “要写的文章”hexo new “要写的文章” 第四步 写文章可直接贴图贴图后会自动上传并返回URL 第五步 直接发布文章123hexo cleanhexo generate #也可以直接使用hexo ghexo deploy #也可以直接使用hexo d 直接发布也可以直接通过内置命令直接执行上传]]></content>
+    <content type="text"><![CDATA[如何使用Mweb直接发布博文 这是一篇测试文章尝试直接通过Mweb发布文章 第一步用blog命令进入目录123vim ~/.zsh.rcalias blog=&apos;cd /Users/xxxx/87dlife&apos;source ~/.zsh.rc 这样以后要写文章第一步在iTerm 2上输入blog即可以进入目录 第二步配置MWeb 用cmd+e 打开外部文件 引入source文件 配置source文件夹 配置如下： 配置图床（此处使用七牛云） 第三步 hexo new “要写的文章”hexo new “要写的文章” 第四步 写文章可直接贴图贴图后会自动上传并返回URL 第五步 直接发布文章123hexo cleanhexo generate #也可以直接使用hexo ghexo deploy #也可以直接使用hexo d 直接发布也可以直接通过内置命令直接执行上传 发布操作步骤![2019-10-02 12.35.17](http://images.v2ex.com.cn//mweb/2019-10-02 12.35.17.gif)]]></content>
   </entry>
   <entry>
     <title><![CDATA[简洁魔方教程]]></title>
