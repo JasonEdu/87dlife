@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.v2ex.com.cn/"/>
-  <updated>2019-10-10T14:29:14.695Z</updated>
+  <updated>2019-10-13T00:22:11.699Z</updated>
   <id>http://blog.v2ex.com.cn/</id>
   
   <author>
@@ -17,11 +17,40 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>oracle rman crontab</title>
+    <link href="http://blog.v2ex.com.cn/2019/10/13/oracle-rman-crontab/"/>
+    <id>http://blog.v2ex.com.cn/2019/10/13/oracle-rman-crontab/</id>
+    <published>2019-10-13T00:14:36.000Z</published>
+    <updated>2019-10-13T00:22:11.699Z</updated>
+    
+    <content type="html"><![CDATA[<p>#rman增量备份配置<br>XXX项目备份将采用oracle 自带的rman程序做增量备份。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rman&gt;show all</span><br></pre></td></tr></table></figure><p>命令中如下3条记录：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CONFIGURE RETENTION POLICY TO REDUNDANCY 1; </span><br><span class="line">–意思是当完成第一次全部备份后，在做完第二次备份时候，第一次的备份结果将被标识为废弃。</span><br><span class="line">CONFIGURE ARCHIVELOG DELETION POLICY TO APPLIED ON STANDBY;</span><br><span class="line">--主从库都要配置，意思是主库采用备份归档并清理后，备份相应归档文件也一并清理。</span><br><span class="line">CONFIGURE CONTROLFILE AUTOBACKUP ON</span><br><span class="line">—变化后的控制文件自动备份</span><br></pre></td></tr></table></figure><p>在10.xx.xx.7主库，目录/home/oracle下有3个文件，如图下所示：<br><img src="media/15707591729484/15707592820808.jpg" alt></p><p>这3个文件作为rman增量备份的脚本。<br>Rman_bk_level0.91330303780485060H 内容如下：<br><img src="media/15707591729484/15707593075129.jpg" alt></p><p>这是一份增量备份0级备份，相当于数据库全备，考虑数据库文件大小才300多G这里给了1个备份管道，即ch1部分。<br>其中</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Crosscheck archivelog all</span><br><span class="line">–-表示检查归档日志信息在控制文件和实际物理文件的差别</span><br><span class="line">Backup incremental level 0 database format ‘/arch/rman_backup/backup0_%U.bak’;</span><br><span class="line">--表示0级增量备份，备份结果放置在目录/arch/rman_backup下。</span><br><span class="line">Backup archivelog until time ‘sysdate-7’ format ‘/arch/rman_backup/archive_%U.bak’ delete all input; ----表示将7天以外的归档日志全备进行备份，备份目录在/arch/rman_backup/下，并且delete all input 表示备份那部分的归档进行删除。</span><br><span class="line">Delet noprompt obsolete </span><br><span class="line">----结合命令CONFIGURE RETENTION POLICY TO REDUNDANCY 1，当第二次备份完毕时候，第一份已经过期，这个命令就是删除第一份备份集。</span><br></pre></td></tr></table></figure><p>Rman_bk_level1.91330303780485060H做增量1备份，内容如下：<br><img src="media/15707591729484/15707595967953.jpg" alt></p><p>Rman_bk_level2.91330303780485060H 做增量2备份，内容如下：<br><img src="media/15707591729484/15707596101956.jpg" alt></p><p>查看操作系统crontab是否正常启动：<br><img src="media/15707591729484/15707596227150.jpg" alt></p><p>将上述3个脚本配置在oracle 用户下的crontab执行计划中</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Crontab –e</span><br><span class="line">* * * * * /home/oracle/Rman_bk_level1.91330303780485060H  1&gt;/arch/rman_backup/rman_bk_reslut.log </span><br><span class="line">* * * * * /home/oracle/Rman_bk_level2.91330303780485060H  1&gt;/arch/rman_backup/rman_bk_reslut.log</span><br><span class="line">* * * * * /home/oracle/Rman_bk_level3.91330303780485060H  1&gt;/arch/rman_backup/rman_bk_reslut.log</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;#rman增量备份配置&lt;br&gt;XXX项目备份将采用oracle 自带的rman程序做增量备份。&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;
+      
+    
+    </summary>
+    
+    
+    
+      <category term="oracle" scheme="http://blog.v2ex.com.cn/tags/oracle/"/>
+    
+      <category term="rman" scheme="http://blog.v2ex.com.cn/tags/rman/"/>
+    
+      <category term="crontab]" scheme="http://blog.v2ex.com.cn/tags/crontab/"/>
+    
+  </entry>
+  
+  <entry>
     <title>2014款Macbook Pro Retina开启Sidecar功能</title>
     <link href="http://blog.v2ex.com.cn/2019/10/10/Macbook-Pro-Retina-2014-enable-sidecar/"/>
     <id>http://blog.v2ex.com.cn/2019/10/10/Macbook-Pro-Retina-2014-enable-sidecar/</id>
     <published>2019-10-10T01:31:46.000Z</published>
-    <updated>2019-10-10T14:29:14.695Z</updated>
+    <updated>2019-10-13T00:23:02.996Z</updated>
     
     <content type="html"><![CDATA[<p>详细方法参见：<br><a href="https://github.com/pookjw/SidecarPatcher" target="_blank" rel="noopener">https://github.com/pookjw/SidecarPatcher</a></p><p><strong>但是操作存在一定风险，请大家谨慎谨慎再谨慎</strong></p><p>安装操作步骤如下：</p><h2 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A/SidecarCore</span><br></pre></td></tr></table></figure><p>这个文件，可以在finder里，前往</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/System/Library/PrivateFrameworks/SidecarCore.framework/Versions/A</span><br></pre></td></tr></table></figure><p>这个目录下，把SidecarCore这个文件备份至其他目录（默认本目录没有写入权限）</p><h2 id="关闭SIP功能方法"><a href="#关闭SIP功能方法" class="headerlink" title="关闭SIP功能方法"></a>关闭SIP功能方法</h2><ol><li>重启电脑 </li><li>按住command+r </li><li>点击Utilities </li><li>选择Terminal </li><li>输入csrutil disable </li><li>敲回车 </li><li>重启电脑</li></ol><p>注意：这个时候触控板的轻触动作是没用的，需要单击触控板</p><p><img src="http://images.v2ex.com.cn//mweb/15706761246776.jpg" alt></p><h2 id="下载并解压文件"><a href="#下载并解压文件" class="headerlink" title="下载并解压文件"></a>下载并解压文件</h2><p>点击连接<a href="https://github.com/pookjw/SidecarPatcher/releases" target="_blank" rel="noopener">https://github.com/pookjw/SidecarPatcher/releases</a> 下载SidecarPatcher.zip文件并解压出来</p><h2 id="打开Terminal"><a href="#打开Terminal" class="headerlink" title="打开Terminal"></a>打开Terminal</h2><p>执行<br><code>chmod +x “把文件拖进来”</code></p><h2 id="执行该文件"><a href="#执行该文件" class="headerlink" title="执行该文件"></a>执行该文件</h2><p><code>sudo “把文件拖进来”</code></p><h2 id="输入密码"><a href="#输入密码" class="headerlink" title="输入密码"></a>输入密码</h2><h2 id="安装完成后的效果"><a href="#安装完成后的效果" class="headerlink" title="安装完成后的效果"></a>安装完成后的效果</h2><p><img src="http://images.v2ex.com.cn//mweb/15706727472573.jpg" alt></p><h2 id="配置完后可以在设置界面看到Sidecar的图标并配置"><a href="#配置完后可以在设置界面看到Sidecar的图标并配置" class="headerlink" title="配置完后可以在设置界面看到Sidecar的图标并配置"></a>配置完后可以在设置界面看到Sidecar的图标并配置</h2><p><img src="http://images.v2ex.com.cn//mweb/15706758600724.jpg" alt></p><h2 id="sidecar配置介面"><a href="#sidecar配置介面" class="headerlink" title="sidecar配置介面"></a>sidecar配置介面</h2><p><img src="http://images.v2ex.com.cn//mweb/15706713208260.jpg" alt></p><h2 id="在iPad-mini-5上的显示效果"><a href="#在iPad-mini-5上的显示效果" class="headerlink" title="在iPad mini 5上的显示效果"></a>在iPad mini 5上的显示效果</h2><p><img src="http://images.v2ex.com.cn//mweb/15706756289655.jpg" alt></p><h2 id="直接将屏幕扩展到iPad-mini5上"><a href="#直接将屏幕扩展到iPad-mini5上" class="headerlink" title="直接将屏幕扩展到iPad mini5上"></a>直接将屏幕扩展到iPad mini5上</h2><p><img src="http://images.v2ex.com.cn//mweb/15706718349575.jpg" alt></p><h2 id="查看sidecar的显示分辨率"><a href="#查看sidecar的显示分辨率" class="headerlink" title="查看sidecar的显示分辨率"></a>查看sidecar的显示分辨率</h2><p><img src="http://images.v2ex.com.cn//mweb/15706719191270.jpg" alt></p><hr><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>可以顺利将MacBook Pro Retina 2014 在使用Sidecar功能，总体感觉使用顺畅，但不知道是不是我这里网络的问题，分辨率并不高，还需要待进一步确认。</p><p>我看到的分辨率是这样的：<br><img src="http://images.v2ex.com.cn//mweb/15706759218350.jpg" alt></p><p>但测试了下如果和PDF expert配合使用的话，还是很不错的，可以很方便的签名和做标记，想想今年CMMI5验证的时候，一个个文档签名也是很痛苦的事情，当然需要你有一支Apple Pencil🤪</p><h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>后面测试了下其他的网络，居然也是有失真的情况，再到issue里面看了，还挺多人有这反应的，看了还是硬件有某方面的限制，😂，要真用还是得换电脑，等新的MBP了。</p><p><img src="http://images.v2ex.com.cn//mweb/15707176717397.jpg" alt></p>]]></content>
     
@@ -36,6 +65,16 @@
     
     
     
+      <category term="Sidecar" scheme="http://blog.v2ex.com.cn/tags/Sidecar/"/>
+    
+      <category term="Macbook" scheme="http://blog.v2ex.com.cn/tags/Macbook/"/>
+    
+      <category term="2014" scheme="http://blog.v2ex.com.cn/tags/2014/"/>
+    
+      <category term="ipad" scheme="http://blog.v2ex.com.cn/tags/ipad/"/>
+    
+      <category term="mini" scheme="http://blog.v2ex.com.cn/tags/mini/"/>
+    
   </entry>
   
   <entry>
@@ -43,7 +82,7 @@
     <link href="http://blog.v2ex.com.cn/2019/10/02/%E4%BD%BF%E7%94%A8Mweb%E5%8F%91%E5%B8%83Hexo%E6%96%87%E7%AB%A0/"/>
     <id>http://blog.v2ex.com.cn/2019/10/02/使用Mweb发布Hexo文章/</id>
     <published>2019-10-02T01:08:54.000Z</published>
-    <updated>2019-10-07T13:55:28.148Z</updated>
+    <updated>2019-10-13T00:22:47.986Z</updated>
     
     <content type="html"><![CDATA[<h1 id="如何使用Mweb直接发布博文"><a href="#如何使用Mweb直接发布博文" class="headerlink" title="如何使用Mweb直接发布博文"></a>如何使用Mweb直接发布博文</h1><blockquote><p>这是一篇测试文章尝试直接通过Mweb发布文章</p></blockquote><h2 id="第一步用blog命令进入目录"><a href="#第一步用blog命令进入目录" class="headerlink" title="第一步用blog命令进入目录"></a>第一步用blog命令进入目录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.zsh.rc</span><br><span class="line">alias blog=&apos;cd /Users/xxxx/87dlife&apos;</span><br><span class="line">source ~/.zsh.rc</span><br></pre></td></tr></table></figure><p>这样以后要写文章第一步在iTerm 2上输入blog即可以进入目录</p><h2 id="第二步配置MWeb"><a href="#第二步配置MWeb" class="headerlink" title="第二步配置MWeb"></a>第二步配置MWeb</h2><ul><li>用cmd+e 打开外部文件</li><li>引入source文件</li><li>配置source文件夹 配置如下：</li></ul><p><img src="http://images.v2ex.com.cn/mweb/15699802928354.jpg" alt></p><ul><li>配置图床（此处使用七牛云）<br><img src="http://images.v2ex.com.cn//mweb/15699807008517.jpg" alt></li></ul><h2 id="第三步-hexo-new-“要写的文章”"><a href="#第三步-hexo-new-“要写的文章”" class="headerlink" title="第三步 hexo new “要写的文章”"></a>第三步 hexo new “要写的文章”</h2><p>hexo new “要写的文章”</p><h2 id="第四步-写文章可直接贴图"><a href="#第四步-写文章可直接贴图" class="headerlink" title="第四步 写文章可直接贴图"></a>第四步 写文章可直接贴图</h2><p>贴图后会自动上传并返回URL</p><h2 id="第五步-直接发布文章"><a href="#第五步-直接发布文章" class="headerlink" title="第五步 直接发布文章"></a>第五步 直接发布文章</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate  #也可以直接使用hexo g</span><br><span class="line">hexo deploy   #也可以直接使用hexo d</span><br></pre></td></tr></table></figure><p><img src="http://images.v2ex.com.cn//mweb/15699810408034.jpg" alt></p><h2 id="直接发布"><a href="#直接发布" class="headerlink" title="直接发布"></a>直接发布</h2><p>也可以直接通过内置命令直接执行上传</p><p><img src="http://images.v2ex.com.cn//mweb/15699900877979.jpg" alt></p><h2 id="发布操作步骤"><a href="#发布操作步骤" class="headerlink" title="发布操作步骤"></a>发布操作步骤</h2><p><img src="http://images.v2ex.com.cn//mweb/deploy.gif" alt="2019-10-02 12.35.17"></p>]]></content>
     
@@ -59,6 +98,10 @@
     
     
     
+      <category term="Mweb" scheme="http://blog.v2ex.com.cn/tags/Mweb/"/>
+    
+      <category term="hexo" scheme="http://blog.v2ex.com.cn/tags/hexo/"/>
+    
   </entry>
   
   <entry>
@@ -66,20 +109,24 @@
     <link href="http://blog.v2ex.com.cn/2019/10/01/cube/"/>
     <id>http://blog.v2ex.com.cn/2019/10/01/cube/</id>
     <published>2019-10-01T05:26:33.000Z</published>
-    <updated>2019-10-01T12:14:16.837Z</updated>
+    <updated>2019-10-13T00:22:37.975Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="说明："><a href="#说明：" class="headerlink" title="说明："></a>说明：</h1><p>本教程通过训练极客魔方后收集到的相关截图和魔方使用方法，相比较原来的一些网上视频教程或者其他的一些公式资料，会简单很多，基本上花一天时间左右基本可以学会这项技能。</p><h2 id="第一步白色小花"><a href="#第一步白色小花" class="headerlink" title="第一步白色小花"></a>第一步白色小花</h2><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661812813709.jpg" alt="-w414"></p><h2 id="第二步白色十字"><a href="#第二步白色十字" class="headerlink" title="第二步白色十字"></a>第二步白色十字</h2><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661813837207.jpg" alt="-w414"></p><h2 id="第三步上层还原"><a href="#第三步上层还原" class="headerlink" title="第三步上层还原"></a>第三步上层还原</h2><p>白色至最底层，然后远离，下来，恢复，上去。<br><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661814167736.jpg" alt="-w414"><br><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661820946078.jpg" alt="-w414"></p><h2 id="第四步中层恢复"><a href="#第四步中层恢复" class="headerlink" title="第四步中层恢复"></a>第四步中层恢复</h2><ol><li>先找到底部中间棱，</li><li>非黄色，再远离，下来，恢复，上去</li><li>再和处理恢复顶层一样处理恢复<br><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661815130274.jpg" alt="-w414"></li></ol><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661824842894.jpg" alt="-w414"></p><h2 id="第五步底部黄色十字"><a href="#第五步底部黄色十字" class="headerlink" title="第五步底部黄色十字"></a>第五步底部黄色十字</h2><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661816902390.jpg" alt="-w414"><br><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661827177448.jpg" alt="-w414"></p><h2 id="第六步-黄面复原"><a href="#第六步-黄面复原" class="headerlink" title="第六步 黄面复原"></a>第六步 黄面复原</h2><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661830715936.jpg" alt="-w414"></p><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661831117301.jpg" alt="-w414"></p><h2 id="第七步"><a href="#第七步" class="headerlink" title="第七步"></a>第七步</h2><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661833534896.jpg" alt="-w414"></p><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661833267168.jpg" alt="-w414"></p><h2 id="第八步"><a href="#第八步" class="headerlink" title="第八步"></a>第八步</h2><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661835580616.jpg" alt="-w414"></p><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661836052219.jpg" alt="-w414"></p><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661836344710.jpg" alt="-w414"><br><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661847056402.jpg" alt></p><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661849985173.jpg" alt="-w414"></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="说明："><a href="#说明：" class="headerlink" title="说明："></a>说明：</h1><p>本教程通过训练计客魔方后收集到的相关截图和魔方使用方法，相比较原来的一些网上视频教程或者其他的一些公式资料，会简单很多，基本上花一天时间左右基本可以学会这项技能。</p><h2 id="第一步白色小花"><a href="#第一步白色小花" class="headerlink" title="第一步白色小花"></a>第一步白色小花</h2><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661812813709.jpg" alt="-w414"></p><h2 id="第二步白色十字"><a href="#第二步白色十字" class="headerlink" title="第二步白色十字"></a>第二步白色十字</h2><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661813837207.jpg" alt="-w414"></p><h2 id="第三步上层还原"><a href="#第三步上层还原" class="headerlink" title="第三步上层还原"></a>第三步上层还原</h2><p>白色至最底层，然后远离，下来，恢复，上去。<br><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661814167736.jpg" alt="-w414"><br><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661820946078.jpg" alt="-w414"></p><h2 id="第四步中层恢复"><a href="#第四步中层恢复" class="headerlink" title="第四步中层恢复"></a>第四步中层恢复</h2><ol><li>先找到底部中间棱，</li><li>非黄色，再远离，下来，恢复，上去</li><li>再和处理恢复顶层一样处理恢复<br><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661815130274.jpg" alt="-w414"></li></ol><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661824842894.jpg" alt="-w414"></p><h2 id="第五步底部黄色十字"><a href="#第五步底部黄色十字" class="headerlink" title="第五步底部黄色十字"></a>第五步底部黄色十字</h2><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661816902390.jpg" alt="-w414"><br><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661827177448.jpg" alt="-w414"></p><h2 id="第六步-黄面复原"><a href="#第六步-黄面复原" class="headerlink" title="第六步 黄面复原"></a>第六步 黄面复原</h2><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661830715936.jpg" alt="-w414"></p><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661831117301.jpg" alt="-w414"></p><h2 id="第七步"><a href="#第七步" class="headerlink" title="第七步"></a>第七步</h2><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661833534896.jpg" alt="-w414"></p><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661833267168.jpg" alt="-w414"></p><h2 id="第八步"><a href="#第八步" class="headerlink" title="第八步"></a>第八步</h2><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661835580616.jpg" alt="-w414"></p><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661836052219.jpg" alt="-w414"></p><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661836344710.jpg" alt="-w414"><br><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661847056402.jpg" alt></p><p><img src="http://pyotcoode.bkt.clouddn.com/mweb/15661849985173.jpg" alt="-w414"></p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h1 id=&quot;说明：&quot;&gt;&lt;a href=&quot;#说明：&quot; class=&quot;headerlink&quot; title=&quot;说明：&quot;&gt;&lt;/a&gt;说明：&lt;/h1&gt;&lt;p&gt;本教程通过训练极客魔方后收集到的相关截图和魔方使用方法，相比较原来的一些网上视频教程或者其他的一些公式资料，会简单很多，基本上花一天
+        &lt;h1 id=&quot;说明：&quot;&gt;&lt;a href=&quot;#说明：&quot; class=&quot;headerlink&quot; title=&quot;说明：&quot;&gt;&lt;/a&gt;说明：&lt;/h1&gt;&lt;p&gt;本教程通过训练计客魔方后收集到的相关截图和魔方使用方法，相比较原来的一些网上视频教程或者其他的一些公式资料，会简单很多，基本上花一天
       
     
     </summary>
     
     
+    
+      <category term="魔方" scheme="http://blog.v2ex.com.cn/tags/%E9%AD%94%E6%96%B9/"/>
+    
+      <category term="cube" scheme="http://blog.v2ex.com.cn/tags/cube/"/>
     
   </entry>
   
