@@ -70,7 +70,8 @@
 <meta property="og:image" content="http://images.v2ex.com.cn//mweb/15709263578056.jpg">
 <meta property="og:image" content="http://images.v2ex.com.cn//mweb/15709263720283.jpg">
 <meta property="og:image" content="http://images.v2ex.com.cn//mweb/15709263880292.jpg">
-<meta property="og:updated_time" content="2019-10-13T00:27:38.445Z">
+<meta property="og:image" content="http://images.v2ex.com.cn//mweb/15709555261103.jpg">
+<meta property="og:updated_time" content="2019-10-13T08:32:09.969Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="oracle rman crontab">
 <meta name="twitter:description" content="rman增量备份配置XXX项目备份将采用oracle 自带的rman程序做增量备份。 1rman&amp;gt;show all  命令中如下3条记录： 123456CONFIGURE RETENTION POLICY TO REDUNDANCY 1; –意思是当完成第一次全部备份后，在做完第二次备份时候，第一次的备份结果将被标识为废弃。CONFIGURE ARCHIVELOG DELETION POLI">
@@ -235,7 +236,7 @@
                 
               
 
-              <time title="创建时间：2019-10-13 08:14:36 / 修改时间：08:27:38" itemprop="dateCreated datePublished" datetime="2019-10-13T08:14:36+08:00">2019-10-13</time>
+              <time title="创建时间：2019-10-13 08:14:36 / 修改时间：16:32:09" itemprop="dateCreated datePublished" datetime="2019-10-13T08:14:36+08:00">2019-10-13</time>
             </span>
           
             
@@ -277,7 +278,10 @@
 <p>Rman_bk_level2.91330303780485060H 做增量2备份，内容如下：<br><img src="http://images.v2ex.com.cn//mweb/15709263720283.jpg" alt></p>
 <p>查看操作系统crontab是否正常启动：<br><img src="http://images.v2ex.com.cn//mweb/15709263880292.jpg" alt></p>
 <p>将上述3个脚本配置在oracle 用户下的crontab执行计划中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Crontab –e</span><br><span class="line">* * * * * /home/oracle/Rman_bk_level1.91330303780485060H  1&gt;/arch/rman_backup/rman_bk_reslut.log </span><br><span class="line">* * * * * /home/oracle/Rman_bk_level2.91330303780485060H  1&gt;/arch/rman_backup/rman_bk_reslut.log</span><br><span class="line">* * * * * /home/oracle/Rman_bk_level3.91330303780485060H  1&gt;/arch/rman_backup/rman_bk_reslut.log</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Crontab –e</span><br><span class="line">* * * * * /home/oracle/Rman_bk_level0.sh  1&gt;/arch/rman_backup/rman_bk_reslut.log </span><br><span class="line">* * * * * /home/oracle/Rman_bk_level1.sh/rman_backup/rman_bk_reslut.log</span><br><span class="line">* * * * * /home/oracle/Rman_bk_level2.sh 1&gt;/arch/rman_backup/rman_bk_reslut.log</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://images.v2ex.com.cn//mweb/15709555261103.jpg" alt></p>
+
     </div>
 
     
