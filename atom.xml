@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.v2ex.com.cn/"/>
-  <updated>2019-10-13T08:32:09.969Z</updated>
+  <updated>2019-10-15T13:13:12.951Z</updated>
   <id>http://blog.v2ex.com.cn/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>oracle tablespace</title>
+    <link href="http://blog.v2ex.com.cn/2019/10/15/oracle-tablespace/"/>
+    <id>http://blog.v2ex.com.cn/2019/10/15/oracle-tablespace/</id>
+    <published>2019-10-15T13:12:12.000Z</published>
+    <updated>2019-10-15T13:13:12.951Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Oracle表空间扩容"><a href="#Oracle表空间扩容" class="headerlink" title="Oracle表空间扩容"></a>Oracle表空间扩容</h1><h3 id="查看实例名："><a href="#查看实例名：" class="headerlink" title="查看实例名："></a>查看实例名：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select instance_name from v$instance;</span><br></pre></td></tr></table></figure><h3 id="查看表空间名："><a href="#查看表空间名：" class="headerlink" title="查看表空间名："></a>查看表空间名：</h3><figure class="highlight plain"><figcaption><span>tablespace_name from sys.dba_tablespaces;```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 查询默认表空间：</span><br></pre></td></tr></table></figure><p>select a.property_name, a.property_value from database_properties a where a.property_name like ‘%DEFAULT%’;</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### 表空间使用情况：</span><br></pre></td></tr></table></figure><p>SELECT a.tablespace_name “表空间名”,a.bytes / 1024 / 1024 “表空间大小(M)”,(a.bytes - b.bytes) / 1024 / 1024 “已使用空间(M)”,b.bytes / 1024 / 1024 “空闲空间(M)”,round(((a.bytes - b.bytes) / a.bytes) * 100, 2) “使用比”FROM (SELECT tablespace_name, sum(bytes) bytes FROM dba_data_files GROUP BY tablespace_name) a,(SELECT tablespace_name, sum(bytes) bytes, max(bytes) largest FROM dba_free_space GROUP BY tablespace_name) b WHERE a.tablespace_name = b.tablespace_name ORDER BY ((a.bytes - b.bytes) / a.bytes) DESC</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 查询所有的schema所占空间大小:</span><br></pre></td></tr></table></figure><p>select owner, sum(bytes)/1024/1024/1024 schema_size_gig from sys.dba_segments group by owner;</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 查看表空间文件:</span><br></pre></td></tr></table></figure><p>SELECT * FROM dba_data_files t WHERE t.tablespace_name=’USERS’;</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 添加表空间文件:</span><br></pre></td></tr></table></figure><p>alter tablespace USERS add datafile ‘/u01/app/oracle/oradata/sx21/users02.dbf’ size 5M autoextend on maxsize 32767M;</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 验证表空间文件：</span><br></pre></td></tr></table></figure><p>select file_name,file_id,tablespace_name FROM dba_data_files WHERE tablespace_name=’USERS’;</p><pre><code></code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;Oracle表空间扩容&quot;&gt;&lt;a href=&quot;#Oracle表空间扩容&quot; class=&quot;headerlink&quot; title=&quot;Oracle表空间扩容&quot;&gt;&lt;/a&gt;Oracle表空间扩容&lt;/h1&gt;&lt;h3 id=&quot;查看实例名：&quot;&gt;&lt;a href=&quot;#查看实例名：&quot; cla
+      
+    
+    </summary>
+    
+    
+    
+      <category term="oracle" scheme="http://blog.v2ex.com.cn/tags/oracle/"/>
+    
+      <category term="tablespace" scheme="http://blog.v2ex.com.cn/tags/tablespace/"/>
+    
+  </entry>
   
   <entry>
     <title>oracle rman crontab</title>

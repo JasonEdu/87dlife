@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[oracle tablespace]]></title>
+    <url>%2F2019%2F10%2F15%2Foracle-tablespace%2F</url>
+    <content type="text"><![CDATA[Oracle表空间扩容查看实例名：1select instance_name from v$instance; 查看表空间名：tablespace_name from sys.dba_tablespaces;```12### 查询默认表空间： select a.property_name, a.property_value from database_properties a where a.property_name like ‘%DEFAULT%’; 1### 表空间使用情况： SELECT a.tablespace_name “表空间名”,a.bytes / 1024 / 1024 “表空间大小(M)”,(a.bytes - b.bytes) / 1024 / 1024 “已使用空间(M)”,b.bytes / 1024 / 1024 “空闲空间(M)”,round(((a.bytes - b.bytes) / a.bytes) * 100, 2) “使用比”FROM (SELECT tablespace_name, sum(bytes) bytes FROM dba_data_files GROUP BY tablespace_name) a,(SELECT tablespace_name, sum(bytes) bytes, max(bytes) largest FROM dba_free_space GROUP BY tablespace_name) b WHERE a.tablespace_name = b.tablespace_name ORDER BY ((a.bytes - b.bytes) / a.bytes) DESC 12### 查询所有的schema所占空间大小: select owner, sum(bytes)/1024/1024/1024 schema_size_gig from sys.dba_segments group by owner; 12### 查看表空间文件: SELECT * FROM dba_data_files t WHERE t.tablespace_name=’USERS’; 12### 添加表空间文件: alter tablespace USERS add datafile ‘/u01/app/oracle/oradata/sx21/users02.dbf’ size 5M autoextend on maxsize 32767M; 12### 验证表空间文件： select file_name,file_id,tablespace_name FROM dba_data_files WHERE tablespace_name=’USERS’;]]></content>
+      <tags>
+        <tag>oracle</tag>
+        <tag>tablespace</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[oracle rman crontab]]></title>
     <url>%2F2019%2F10%2F13%2Foracle-rman-crontab%2F</url>
     <content type="text"><![CDATA[rman增量备份配置XXX项目备份将采用oracle 自带的rman程序做增量备份。 1rman&gt;show all 命令中如下3条记录： 123456CONFIGURE RETENTION POLICY TO REDUNDANCY 1; –意思是当完成第一次全部备份后，在做完第二次备份时候，第一次的备份结果将被标识为废弃。CONFIGURE ARCHIVELOG DELETION POLICY TO APPLIED ON STANDBY;--主从库都要配置，意思是主库采用备份归档并清理后，备份相应归档文件也一并清理。CONFIGURE CONTROLFILE AUTOBACKUP ON—变化后的控制文件自动备份 在10.xx.xx.7主库，目录/home/oracle下有3个文件，如图下所示： 这3个文件作为rman增量备份的脚本。Rman_bk_level0.91330303780485060H 内容如下： 这是一份增量备份0级备份，相当于数据库全备，考虑数据库文件大小才300多G这里给了1个备份管道，即ch1部分。其中 1234567Crosscheck archivelog all–-表示检查归档日志信息在控制文件和实际物理文件的差别Backup incremental level 0 database format ‘/arch/rman_backup/backup0_%U.bak’;--表示0级增量备份，备份结果放置在目录/arch/rman_backup下。Backup archivelog until time ‘sysdate-7’ format ‘/arch/rman_backup/archive_%U.bak’ delete all input; ----表示将7天以外的归档日志全备进行备份，备份目录在/arch/rman_backup/下，并且delete all input 表示备份那部分的归档进行删除。Delet noprompt obsolete ----结合命令CONFIGURE RETENTION POLICY TO REDUNDANCY 1，当第二次备份完毕时候，第一份已经过期，这个命令就是删除第一份备份集。 Rman_bk_level1.91330303780485060H做增量1备份，内容如下： Rman_bk_level2.91330303780485060H 做增量2备份，内容如下： 查看操作系统crontab是否正常启动： 将上述3个脚本配置在oracle 用户下的crontab执行计划中 1234Crontab –e* * * * * /home/oracle/Rman_bk_level0.sh 1&gt;/arch/rman_backup/rman_bk_reslut.log * * * * * /home/oracle/Rman_bk_level1.sh/rman_backup/rman_bk_reslut.log* * * * * /home/oracle/Rman_bk_level2.sh 1&gt;/arch/rman_backup/rman_bk_reslut.log]]></content>

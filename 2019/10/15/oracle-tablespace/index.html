@@ -57,18 +57,19 @@
   };
 </script>
 
-  <meta name="description" content="爱家庭，爱生活，爱自己">
-<meta name="keywords" content="87dlife,OS X,iPhone,Mac">
-<meta property="og:type" content="website">
-<meta property="og:title" content="87年的脚本">
-<meta property="og:url" content="http://blog.v2ex.com.cn/archives/2019/index.html">
+  <meta name="description" content="Oracle表空间扩容查看实例名：1select instance_name from v$instance;  查看表空间名：tablespace_name from sys.dba_tablespaces;```12### 查询默认表空间：  select a.property_name, a.property_value from database_properties a where a.">
+<meta name="keywords" content="oracle,tablespace">
+<meta property="og:type" content="article">
+<meta property="og:title" content="oracle tablespace">
+<meta property="og:url" content="http://blog.v2ex.com.cn/2019/10/15/oracle-tablespace/index.html">
 <meta property="og:site_name" content="87年的脚本">
-<meta property="og:description" content="爱家庭，爱生活，爱自己">
+<meta property="og:description" content="Oracle表空间扩容查看实例名：1select instance_name from v$instance;  查看表空间名：tablespace_name from sys.dba_tablespaces;```12### 查询默认表空间：  select a.property_name, a.property_value from database_properties a where a.">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-15T13:13:12.951Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="87年的脚本">
-<meta name="twitter:description" content="爱家庭，爱生活，爱自己">
-  <link rel="canonical" href="http://blog.v2ex.com.cn/archives/2019/">
+<meta name="twitter:title" content="oracle tablespace">
+<meta name="twitter:description" content="Oracle表空间扩容查看实例名：1select instance_name from v$instance;  查看表空间名：tablespace_name from sys.dba_tablespaces;```12### 查询默认表空间：  select a.property_name, a.property_value from database_properties a where a.">
+  <link rel="canonical" href="http://blog.v2ex.com.cn/2019/10/15/oracle-tablespace/">
 
 
 <script id="page-configurations">
@@ -76,13 +77,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
-    isArchive: true
+    isArchive: false
   };
 </script>
 
-  <title>归档 | 87年的脚本</title>
+  <title>oracle tablespace | 87年的脚本</title>
   
 
 
@@ -191,198 +192,146 @@
         <div class="content-wrap">
             
 
-  
-    
-    
-  
-    
-    
-  
-  
-
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        
-        
-        
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://blog.v2ex.com.cn/2019/10/15/oracle-tablespace/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="爱家庭，爱生活，爱自己">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="87年的脚本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">oracle tablespace
+
           
-        
-        <span class="collection-header">嗯..! 目前共计 5 篇日志。 继续努力。</span>
-      </div>
-      
+        </h1>
 
-      
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
 
-  
-  
+              
+                
+              
 
-  
+              <time title="创建时间：2019-10-15 21:12:12 / 修改时间：21:13:12" itemprop="dateCreated datePublished" datetime="2019-10-15T21:12:12+08:00">2019-10-15</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+            <span id="/2019/10/15/oracle-tablespace/" class="post-meta-item leancloud_visitors" data-flag-title="oracle tablespace" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
     
-    <div class="collection-year">
-      <h1 class="collection-header">2019</h1>
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Oracle表空间扩容"><a href="#Oracle表空间扩容" class="headerlink" title="Oracle表空间扩容"></a>Oracle表空间扩容</h1><h3 id="查看实例名："><a href="#查看实例名：" class="headerlink" title="查看实例名："></a>查看实例名：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select instance_name from v$instance;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看表空间名："><a href="#查看表空间名：" class="headerlink" title="查看表空间名："></a>查看表空间名：</h3><figure class="highlight plain"><figcaption><span>tablespace_name from sys.dba_tablespaces;```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 查询默认表空间：</span><br></pre></td></tr></table></figure>
+
+<p>select a.property_name, a.property_value from database_properties a where a.property_name like ‘%DEFAULT%’;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### 表空间使用情况：</span><br></pre></td></tr></table></figure>
+
+<p>SELECT a.tablespace_name “表空间名”,a.bytes / 1024 / 1024 “表空间大小(M)”,(a.bytes - b.bytes) / 1024 / 1024 “已使用空间(M)”,b.bytes / 1024 / 1024 “空闲空间(M)”,round(((a.bytes - b.bytes) / a.bytes) * 100, 2) “使用比”FROM (SELECT tablespace_name, sum(bytes) bytes FROM dba_data_files GROUP BY tablespace_name) a,(SELECT tablespace_name, sum(bytes) bytes, max(bytes) largest FROM dba_free_space GROUP BY tablespace_name) b WHERE a.tablespace_name = b.tablespace_name ORDER BY ((a.bytes - b.bytes) / a.bytes) DESC</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 查询所有的schema所占空间大小:</span><br></pre></td></tr></table></figure>
+
+<p>select owner, sum(bytes)/1024/1024/1024 schema_size_gig from sys.dba_segments group by owner;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 查看表空间文件:</span><br></pre></td></tr></table></figure>
+
+<p>SELECT * FROM dba_data_files t WHERE t.tablespace_name=’USERS’;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 添加表空间文件:</span><br></pre></td></tr></table></figure>
+
+<p>alter tablespace USERS add datafile ‘/u01/app/oracle/oradata/sx21/users02.dbf’ size 5M autoextend on maxsize 32767M;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 验证表空间文件：</span><br></pre></td></tr></table></figure>
+
+<p>select file_name,file_id,tablespace_name FROM dba_data_files WHERE tablespace_name=’USERS’;</p>
+<pre><code></code></pre>
     </div>
-  
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-10-15T21:12:12+08:00"
-              content="2019-10-15">
-          10-15
-        </time>
-      </div>
-
-      <h2 class="post-title">
+    
+    
+    
         
-          <a class="post-title-link" href="/2019/10/15/oracle-tablespace/" itemprop="url">
-            <span itemprop="name">oracle tablespace</span>
-          </a>
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/oracle/" rel="tag"># oracle</a>
+            
+              <a href="/tags/tablespace/" rel="tag"># tablespace</a>
+            
+          </div>
         
-      </h2>
 
-    </header>
-  </article>
-
-
-
-  
-  
-
-  
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-10-13T08:14:36+08:00"
-              content="2019-10-13">
-          10-13
-        </time>
-      </div>
-
-      <h2 class="post-title">
         
-          <a class="post-title-link" href="/2019/10/13/oracle-rman-crontab/" itemprop="url">
-            <span itemprop="name">oracle rman crontab</span>
-          </a>
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/13/oracle-rman-crontab/" rel="next" title="oracle rman crontab">
+                  <i class="fa fa-chevron-left"></i> oracle rman crontab
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
         
-      </h2>
-
-    </header>
-  </article>
-
-
-
-  
-  
-
-  
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-10-10T09:31:46+08:00"
-              content="2019-10-10">
-          10-10
-        </time>
-      </div>
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/10/10/Macbook-Pro-Retina-2014-enable-sidecar/" itemprop="url">
-            <span itemprop="name">2014款Macbook Pro Retina开启Sidecar功能</span>
-          </a>
-        
-      </h2>
-
-    </header>
-  </article>
-
-
-
-  
-  
-
-  
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-10-02T09:08:54+08:00"
-              content="2019-10-02">
-          10-02
-        </time>
-      </div>
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/10/02/使用Mweb发布Hexo文章/" itemprop="url">
-            <span itemprop="name">使用Mweb发布Hexo文章</span>
-          </a>
-        
-      </h2>
-
-    </header>
-  </article>
-
-
-
-  
-  
-
-  
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-10-01T13:26:33+08:00"
-              content="2019-10-01">
-          10-01
-        </time>
-      </div>
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/10/01/cube/" itemprop="url">
-            <span itemprop="name">简洁魔方教程</span>
-          </a>
-        
-      </h2>
-
-    </header>
-  </article>
-
-
-
-
-    </div>
+      </footer>
+    
   </div>
   
   
   
+  </article>
 
-  
-
+  </div>
 
 
           </div>
           
+    
+    <div class="comments" id="gitalk-container"></div>
+  
 
         </div>
           
@@ -397,6 +346,11 @@
 
   <aside class="sidebar">
     <div class="sidebar-inner">
+        
+        
+        
+        
+      
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
@@ -409,6 +363,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Oracle表空间扩容"><span class="nav-number">1.</span> <span class="nav-text">Oracle表空间扩容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查看实例名："><span class="nav-number">1.0.1.</span> <span class="nav-text">查看实例名：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看表空间名："><span class="nav-number">1.0.2.</span> <span class="nav-text">查看表空间名：</span></a></li></ol></li></ol></li></ol></div>
+        
       </div>
       <!--/noindex-->
 
@@ -714,6 +670,24 @@ window.addEventListener('pjax:success', () => {
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '0d05c980658dff664c0d',
+      clientSecret: '3cc145d7a8290293430621c0824cceb04927dc7e',
+      repo: '87dlife',
+      owner: 'JasonEdu',
+      admin: ['JasonEdu'],
+      id: 'ddbc9fb73242ee30474187d18b0684d5',
+        language: 'zh-CN',
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
 
     </div>
 </body>
